@@ -8,7 +8,7 @@ Easily and quickly create lambda layers: https://docs.aws.amazon.com/lambda/late
 npx create-lambda-layer-aws [PACKAGE1 PACKAGE2 ...]
 ```
 
-The command will generate a file names `layer.zip`, ready to be uploaded to AWS as a layer.
+The command will generate a file named `layer.zip`, ready to be uploaded to AWS as a layer.
 
 ### Example
 

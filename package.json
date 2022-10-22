@@ -1,6 +1,6 @@
 {
   "name": "create-lambda-layer-aws",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A tool to easily and quickly create lambda layers",
   "scripts": {},
   "keywords": [
