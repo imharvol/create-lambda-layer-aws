@@ -10,7 +10,7 @@ const promiseExec = promisify(exec)
 const outputFileName = 'layer.zip'
 const outputFilePath = path.join(process.cwd(), outputFileName)
 
-const packages = process.argv.slice(2)
+const args = process.argv.slice(2)
 
 const cwdFiles = await fs.readdir(process.cwd())
 if (cwdFiles.includes(outputFileName)) {
@@ -25,8 +25,22 @@ const tmpDirPath = await fs.mkdtemp(path.join(os.tmpdir(), 'create-lambda-layer-
 const nodejsDirPath = path.join(tmpDirPath, 'nodejs')
 await fs.mkdir(nodejsDirPath)
 
+let packages = []
+// List packages
+for (const arg of args) {
+  if (arg.endsWith('/package.json')) {
+    const packageJson = JSON.parse(await fs.readFile(arg))
+    for (const dependency of Object.entries(packageJson.dependencies)) {
+      packages.push(`${dependency[0]}@${dependency[1]}`)
+    }
+  } else {
+    packages.push(arg)
+  }
+}
+
 // Install packages inside the nodejs dir
-console.log('Installing dependencies ...')
+console.log('Installing dependencies:')
+console.log(packages.join(', '))
 await promiseExec(`cd ${nodejsDirPath} && npm install --quiet ${packages.join(' ')}`)
 
 // Zip
